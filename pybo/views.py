@@ -4,6 +4,13 @@ from .models import Question
 from .forms import QuestionForm
 from django.http import HttpResponseNotAllowed
 
+
+def main(request):
+    context = {}
+    return render(request, 'pybo/diary_main.html')
+
+
+
 def index(request):
     question_list = Question.objects.order_by('-create_date')
     context = {'question_list': question_list}

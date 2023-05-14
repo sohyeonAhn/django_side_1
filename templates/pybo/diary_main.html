@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Calendar</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+          }
+          
+          th,
+          td {
+            text-align: center;
+            padding: 8px;
+          }
+          
+          th {
+            background-color: #f2f2f2;
+            color: black;
+          }
+          
+          td {
+            background-color: white;
+          }
+          
+          td.today {
+            background-color: #4CAF50;
+            color: white;
+          }
+          
+          td:not(.today):hover {
+            background-color: #f2f2f2;
+          }
+          
+    </style>
+</head>
+<body>
+    <div class="calendar">
+        <h2>Calendar</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth();
+
+        function createCalendar(year, month) {
+            const calendarBody = document.querySelector('.calendar tbody');
+            let date = new Date(year, month, 1);
+            let calendarHtml = '';
+
+            while (date.getMonth() === month) {
+                const day = date.getDate();
+                const dayOfWeek = date.getDay();
+
+                if (dayOfWeek === 0) {
+                    calendarHtml += '<tr>';
+                }
+
+                if (day === 1 && dayOfWeek !== 0) {
+                    calendarHtml += '<td colspan="' + dayOfWeek + '"></td>';
+                }
+
+                calendarHtml += '<td>' + day + '</td>';
+
+                if (dayOfWeek === 6) {
+                    calendarHtml += '</tr>';
+                }
+
+                date.setDate(date.getDate() + 1);
+            }
+
+            calendarBody.innerHTML = calendarHtml;
+        }
+
+        createCalendar(year, month);
+    </script>
+</body>
+</html>
