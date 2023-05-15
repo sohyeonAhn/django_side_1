@@ -1,0 +1,69 @@
+
+h3{
+    display: inline-block;
+    margin-top: -20px;
+}
+
+.calendar {
+    margin-left: 10%;
+    margin-top: 50px;
+}
+
+.calendar-day-number {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-weight: bold;
+}
+
+.calendar-day-info {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    font-size: 14px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 80%;
+    height: 60%;
+    border: solid #000 1px;
+    }
+    
+    th, td {
+    text-align: right;
+    padding: 8px;
+    }
+    
+    th {
+    background-color: #f2f2f2;
+    color: black;
+    }
+    
+    td {
+    background-color: white;
+    width: 120px;
+    height: 100px;
+    position: relative;
+    border: solid #888 1px;
+    }
+    span {
+        text-align: right;
+        display: block;
+        height: 20%;
+        margin-top: 0;
+    }
+    .daily {
+        text-align: left;
+        font-size: 10px;
+        height: 80%;
+    }
+    
+    td.today {
+    background-color: #4CAF50;
+    color: white;
+    }
+    
+    td:not(.today):hover {
+    background-color: #f2f2f2;
+    }
