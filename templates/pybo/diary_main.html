@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Calendar</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'diarymain.css' %}">
+</head>
+{% block content %}
+<body>
+    <div class="calendar">
+        <h2>Calendar</h2>
+        <h3 id="currentYear">2023년</h3>
+        <h3 id="currentMonth">6월</h3>
+
+        <button id="nextBtn" style="float: right; margin-right: 20%;">다음 달</button>
+        <button id="prevBtn" style="float: right; margin-right: 10px;">이전 달</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    {% endblock %}
+    {% block script %}
+    <script src="{% static 'diarymain.js' %}"></script>
+    {% endblock %}
+</body>
+</html>
