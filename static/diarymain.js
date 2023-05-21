@@ -4,12 +4,14 @@ const month = today.getMonth();
 
 function createCalendar(year, month) {
     const calendarBody = document.querySelector('.calendar tbody');
-    crYear = document.getElementById("currentYear");
-    crMonth = document.getElementById("currentMonth");
+    const crYear = document.getElementById("currentYear");
+    const crMonth = document.getElementById("currentMonth");
     let date = new Date(year, month, 1);
     let calendarHtml = '';
 
-    while (date.getMonth() === month) {
+    month = month+1
+
+    while (date.getMonth() === (month-1)) {
         const day = date.getDate();
         const dayOfWeek = date.getDay();
 
@@ -21,7 +23,7 @@ function createCalendar(year, month) {
             calendarHtml += '<td colspan="' + dayOfWeek + '"></td>';
         }
 
-        calendarHtml += '<td><span>' + day + '</span>' + '<div class="daily"> 일정 </div>' + '</td>';
+        calendarHtml += '<td><span>' + day + '</span>' + '<div class="daily '+ year +' '+ month +' '+ day +'"> </div>' + '</td>';
         // 일정 부분에 일정 가져와서 입력하기
 
         if (dayOfWeek === 6) {  // 토요일인 경우 tr 끝
@@ -33,7 +35,7 @@ function createCalendar(year, month) {
 
     calendarBody.innerHTML = calendarHtml;
     crYear.innerHTML = year+"년";
-    crMonth.innerHTML = month+1+"월";
+    crMonth.innerHTML = month+"월";
 }
 
 createCalendar(year, month);
@@ -51,6 +53,7 @@ document.getElementById('prevBtn').addEventListener('click', function() {
 
     // 달력 생성
     createCalendar(prevYear, prevMonth);
+    updateCalendar();
 });
 
 // 다음 달 버튼 클릭 시
@@ -66,4 +69,14 @@ document.getElementById('nextBtn').addEventListener('click', function() {
 
     // 달력 생성
     createCalendar(nextYear, nextMonth);
+    updateCalendar();
 });
+
+// 오늘 버튼 클릭 시
+document.getElementById('goToday').addEventListener('click', function() {
+
+  // 달력 생성
+  createCalendar(year, month);
+  updateCalendar();
+});
+

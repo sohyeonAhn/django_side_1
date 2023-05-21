@@ -1,4 +1,5 @@
 {% load static %}
+{% load pybo_filter %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,8 +11,9 @@
 <body>
     <div class="calendar">
         <h2>Calendar</h2>
-        <h3 id="currentYear">2023년</h3>
-        <h3 id="currentMonth">6월</h3>
+        <h3 id="currentYear"></h3>
+        <h3 id="currentMonth"></h3>
+        <button id="goToday" style="margin-left: 15px;">Today</button>
 
         <button id="nextBtn" style="float: right; margin-right: 20%;">다음 달</button>
         <button id="prevBtn" style="float: right; margin-right: 10px;">이전 달</button>
@@ -28,12 +30,37 @@
                 </tr>
             </thead>
             <tbody>
+
             </tbody>
         </table>
     </div>
     {% endblock %}
     {% block script %}
+
     <script src="{% static 'diarymain.js' %}"></script>
+    <script type='text/javascript'>
+    
+
+    var data = {{daily_write|safe}};
+    var data2 = {{row_data|safe}};
+
+    function updateCalendar() {
+        const diaryDivs = document.querySelectorAll('.daily');
+      
+        diaryDivs.forEach((daily) => {
+          const number = daily.classList[1] + daily.classList[2] + daily.classList[3];
+          if (number in data2) {
+            daily.innerHTML += "<a href=''>" + data2[number].title + "<a>";
+          } else {
+            // 일정이 없는 경우에 추가할 위치
+          }
+        });
+      }
+
+    window.addEventListener('load', updateCalendar);
+
+    </script>
+
     {% endblock %}
 </body>
 </html>
