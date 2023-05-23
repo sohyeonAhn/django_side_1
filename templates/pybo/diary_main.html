@@ -41,19 +41,20 @@
     <script type='text/javascript'>
     
 
-    var data = {{daily_write|safe}};
-    var data2 = {{row_data|safe}};
+    var data = {{row_data|safe}};
 
     function updateCalendar() {
         const diaryDivs = document.querySelectorAll('.daily');
       
         diaryDivs.forEach((daily) => {
           const number = daily.classList[1] + daily.classList[2] + daily.classList[3];
-          if (number in data2) {
-            daily.innerHTML += "<a href=''>" + data2[number].title + "<a>";
-          } else {
-            // 일정이 없는 경우에 추가할 위치
-          }
+          for(var id in data){
+            if (id.includes(number) && id.length == number.length+1) {
+                daily.innerHTML += "<a href=''>" + data[id].title + "<a><br>";
+            }else {
+                // 일정이 없는 경우에 추가할 위치
+            }
+        }
         });
       }
 

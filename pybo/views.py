@@ -38,7 +38,7 @@ def main(request):
             
     if datasets:
         for diary in datasets:
-            newday = str(diary['write_date'].year) + str(diary['write_date'].month) + str(diary['write_date'].day)
+            newday = str(diary['write_date'].year) + str(diary['write_date'].month) + str(diary['write_date'].day) + str(diary['id'])
             row_data[newday] = diary
             row_data[newday]['write_date'] = row_data[newday]['write_date'].isoformat()
             

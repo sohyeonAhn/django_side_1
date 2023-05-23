@@ -22,7 +22,12 @@ h3{
     right: 5px;
     font-size: 14px;
 }
-
+.write {
+    float: left;
+    width: 10px;
+    height: 15px;
+    border: solid #888 1px;
+}
 table {
     border-collapse: collapse;
     width: 80%;
@@ -48,6 +53,11 @@ table {
     position: relative;
     border: solid #888 1px;
     }
+    .write {
+        float: left;
+        width: 10px;
+        height: 15px;
+    }
     span {
         text-align: right;
         display: block;
@@ -58,6 +68,14 @@ table {
         text-align: left;
         font-size: 10px;
         height: 80%;
+    }
+
+    .write {
+        display: none;
+      }
+      
+    td:hover .write {
+        display: block;
     }
     
     td.today {
