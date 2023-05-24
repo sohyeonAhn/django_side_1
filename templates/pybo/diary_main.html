@@ -1,0 +1,119 @@
+{% load static %}
+{% load pybo_filter %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Calendar</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'diarymain.css' %}">
+</head>
+{% block content %}
+<body>
+    <div class="calendar">
+        <h2>Calendar</h2>
+        <h3 id="currentYear">{{ calendar_weeks|get_date }}</h3>
+        <h3 id="currentMonth"></h3>
+        <a id="goToday" href="{% url 'pybo:main' %}" style="margin-left: 15px;">Today</a>
+
+        <a id="nextBtn" style="float: right; margin-right: 20%;" data-page="{{ calendar_weeks|get_date_str }}" href="javascript:void(0)"> 
+            다음 달</a>
+        <a id="prevBtn" style="float: right; margin-right: 10px;" data-page="{{ calendar_weeks|get_date_str }}" href="javascript:void(0)"> 
+            이전 달</a>
+        <table>
+            <thead>
+                <tr>
+                    <th class="sun">Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th class="sat">Sat</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for week in calendar_weeks %}
+                <tr>
+                  {% for day in week %}
+                    <td>
+                      <span class="write"><a href="{% url 'pybo:diary_create' %}">+</a></span>
+                      
+                      {% if day.is_current_month%}
+                        {% if day.dayOfWeek == 0%}
+                        <span class="sun">{{ day.date.day }}</span>
+                        {% elif day.dayOfWeek == 6%}
+                        <span class="sat">{{ day.date.day }}</span>
+                        {% else %}
+                        <span>{{ day.date.day }}</span>
+                        {% endif %}
+                      {% else %}
+                        {% if day.dayOfWeek == 0%}
+                        <span class="sun difmonth">{{ day.date.day }}</span>
+                        {% elif day.dayOfWeek == 6%}
+                        <span class="sat difmonth">{{ day.date.day }}</span>
+                        {% else %}
+                        <span class="difmonth">{{ day.date.day }}</span>
+                        {% endif %}
+                      {% endif %}
+
+                      <div class="daily">
+                        {% for key in daily_write%}
+                            {% if day.date.day == key|diary_day %}
+                                {% with date=day.date|date:'Y-m-d' %}
+                                  <span><a href="{% url 'pybo:diary_detail' date %}">{{daily_write|diary_title:key}}</a></span>
+                                {%endwith%}
+                            {% endif %}
+                        {% endfor %}
+                      </div>
+                    </td>
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <form id="searchForm" method="get" action="{% url 'pybo:main' %}">
+        <input type="hidden" id="years" name="years" value="{{ years }}">
+        <input type="hidden" id="month" name="month" value="{{ month }}">
+    </form>
+    {% endblock %}
+    {% block script %}
+
+
+    <script type='text/javascript'>
+
+    const nextBtn = document.getElementById("nextBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    nextBtn.addEventListener('click', function() {
+            year = this.dataset.page.slice(0, 4);
+            month = this.dataset.page.slice(4);
+            if(month < 12){
+                month++;
+            }else{
+                year++;
+                month = 1
+            }
+            document.getElementById('years').value = year
+            document.getElementById('month').value = month
+            document.getElementById('searchForm').submit();
+        });
+    prevBtn.addEventListener('click', function() {
+            year = this.dataset.page.slice(0, 4);
+            month = this.dataset.page.slice(4);
+            if(month > 1){
+                month--;
+            }else{
+                year--;
+                month = 12
+            }
+            document.getElementById('years').value = year
+            document.getElementById('month').value = month
+            document.getElementById('searchForm').submit();
+        });
+
+    </script>
+
+    {% endblock %}
+</body>
+</html>

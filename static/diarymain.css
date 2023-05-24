@@ -1,0 +1,120 @@
+
+h3{
+    display: inline-block;
+    margin-top: -20px;
+}
+
+.calendar {
+    margin-left: 10%;
+    margin-top: 50px;
+}
+
+.calendar-day-number {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-weight: bold;
+}
+
+.calendar-day-info {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    font-size: 14px;
+}
+.write {
+    float: left;
+    width: 10px;
+    height: 15px;
+    border: solid #888 1px;
+}
+table {
+    border-collapse: collapse;
+    width: 80%;
+    height: 60%;
+    border: solid #000 1px;
+    }
+    
+    th, td {
+    text-align: center;
+    padding: 8px;
+    }
+    
+    th {
+    background-color: #f2f2f2;
+    color: black;
+    text-align: center;
+    }
+    
+    td {
+    background-color: white;
+    width: 120px;
+    height: 100px;
+    position: relative;
+    border: solid #888 1px;
+    }
+    .difmonth{
+        color: #999;
+    }
+    .sun {
+        color: red;
+    }
+    .sat {
+        color: blue;
+    }
+    .sun.difmonth{
+        color: #FF9999;
+    }
+    .sat.difmonth{
+        color: #9999FF;
+    }
+    .write {
+        float: left;
+        width: 10px;
+        height: 15px;
+    }
+    span {
+        text-align: right;
+        display: block;
+        height: 20%;
+        margin-top: 0;
+    }
+    .daily {
+        text-align: left;
+        font-size: 15px;
+        height: 80%;
+        position: relative;
+    }
+    .daily span {
+        margin-bottom: 8px;
+    }
+    .daily span a{
+        border: solid #888 1px;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: left;
+    }
+
+    .write {
+        display: none;
+      }
+      
+    td:hover .write {
+        display: block;
+    }
+    
+    td.today {
+    background-color: #4CAF50;
+    color: white;
+    }
+    
+    td:not(.today):hover {
+    background-color: #f2f2f2;
+    }
+
+a {
+    text-decoration: none; 
+    color: inherit; 
+}
