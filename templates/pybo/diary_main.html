@@ -11,7 +11,7 @@
 <body>
     <div class="calendar">
         <h2>Calendar</h2>
-        <h3 id="currentYear"></h3>
+        <h3 id="currentYear">{{ calendar_weeks.date }}</h3>
         <h3 id="currentMonth"></h3>
         <button id="goToday" style="margin-left: 15px;">Today</button>
 
@@ -20,17 +20,53 @@
         <table>
             <thead>
                 <tr>
-                    <th>Sun</th>
+                    <th class="sun">Sun</th>
                     <th>Mon</th>
                     <th>Tue</th>
                     <th>Wed</th>
                     <th>Thu</th>
                     <th>Fri</th>
-                    <th>Sat</th>
+                    <th class="sat">Sat</th>
                 </tr>
             </thead>
             <tbody>
+                {% for week in calendar_weeks %}
+                <tr>
+                  {% for day in week %}
+                    <td>
+                      <span class="write"><a href="{% url 'pybo:diary_create' %}">+</a></span>
+                      
+                      {% if day.is_current_month%}
+                        {% if day.dayOfWeek == 0%}
+                        <span class="sun">{{ day.date.day }}</span>
+                        {% elif day.dayOfWeek == 6%}
+                        <span class="sat">{{ day.date.day }}</span>
+                        {% else %}
+                        <span>{{ day.date.day }}</span>
+                        {% endif %}
+                      {% else %}
+                        {% if day.dayOfWeek == 0%}
+                        <span class="sun difmonth">{{ day.date.day }}</span>
+                        {% elif day.dayOfWeek == 6%}
+                        <span class="sat difmonth">{{ day.date.day }}</span>
+                        {% else %}
+                        <span class="difmonth">{{ day.date.day }}</span>
+                        {% endif %}
+                      {% endif %}
 
+                      <div class="daily">
+                        {% for key in daily_write%}
+                            {% if day.date.day == key %}
+                                {% with date=day.date|date:'Y-m-d' %}
+                                  <a href="{% url 'pybo:diary_detail' date %}">{{daily_write.15.title}}</a>
+                                {%endwith%}
+                            {% endif %}
+                        {% endfor %}
+                      </div>
+                    </td>
+                  {% endfor %}
+                </tr>
+              {% endfor %}
             </tbody>
         </table>
     </div>
@@ -41,7 +77,7 @@
     <script type='text/javascript'>
     
 
-    var data = {{row_data|safe}};
+    var data = {{daily_write|safe}};
 
     function updateCalendar() {
         const diaryDivs = document.querySelectorAll('.daily');
@@ -57,6 +93,19 @@
         }
         });
       }
+
+    function diary_create() {
+        const buttons = document.querySelectorAll('.write');
+      
+        buttons.forEach((btn) => {
+        const number = btn.classList[1] + btn.classList[2];
+        btn.addEventListener('click', function() {
+           const url = 'create.html?YM=' + number + '&day=' + btn.classList[3];
+           window.location.href = url;
+           });
+        });
+    }
+
 
     window.addEventListener('load', updateCalendar);
 
