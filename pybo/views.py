@@ -10,7 +10,7 @@ from calendar import monthrange
 
 
 def main(request):
-    year = int(request.GET.get('year',2023)) # 해당 년 정보
+    year = int(request.GET.get('years',2023)) # 해당 년 정보
     month = int(request.GET.get('month',5)) # 해당 월 정보  
 
     start_date = date(year, month, 1)  # 2023년 6월 1일
@@ -26,7 +26,11 @@ def main(request):
     addcontext = {}
     if diary_list:
         for diary in diary_list:
-            day = diary['write_date'].day
+            cnt = 1
+            day = str(diary['write_date'].day) + " " +str(cnt)
+            if(day in addcontext):
+                cnt += 1
+                day = str(diary['write_date'].day) + " " +str(cnt)
             addcontext[day] = diary
             addcontext[day]['write_date'] = addcontext[day]['write_date'].isoformat()
 

@@ -85,12 +85,16 @@ table {
         height: 80%;
         position: relative;
     }
-    .daily a{
+    .daily span {
+        margin-bottom: 8px;
+    }
+    .daily span a{
         border: solid #888 1px;
         width: 100%;
         position: absolute;
         left: 0;
         right: 0;
+        text-align: left;
     }
 
     .write {

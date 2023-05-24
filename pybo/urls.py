@@ -6,6 +6,7 @@ app_name ='pybo'
 
 urlpatterns = [
     path('', views.main),
+    path('', views.main, name='main'),
     path('diary/', views.main),
     
     path('diary/create/',
