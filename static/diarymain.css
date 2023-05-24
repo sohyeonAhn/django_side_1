@@ -22,7 +22,12 @@ h3{
     right: 5px;
     font-size: 14px;
 }
-
+.write {
+    float: left;
+    width: 10px;
+    height: 15px;
+    border: solid #888 1px;
+}
 table {
     border-collapse: collapse;
     width: 80%;
@@ -48,6 +53,26 @@ table {
     position: relative;
     border: solid #888 1px;
     }
+    .difmonth{
+        color: #999;
+    }
+    .sun {
+        color: red;
+    }
+    .sat {
+        color: blue;
+    }
+    .sun.difmonth{
+        color: #FF9999;
+    }
+    .sat.difmonth{
+        color: #9999FF;
+    }
+    .write {
+        float: left;
+        width: 10px;
+        height: 15px;
+    }
     span {
         text-align: right;
         display: block;
@@ -56,8 +81,28 @@ table {
     }
     .daily {
         text-align: left;
-        font-size: 10px;
+        font-size: 15px;
         height: 80%;
+        position: relative;
+    }
+    .daily span {
+        margin-bottom: 8px;
+    }
+    .daily span a{
+        border: solid #888 1px;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: left;
+    }
+
+    .write {
+        display: none;
+      }
+      
+    td:hover .write {
+        display: block;
     }
     
     td.today {
@@ -68,3 +113,8 @@ table {
     td:not(.today):hover {
     background-color: #f2f2f2;
     }
+
+a {
+    text-decoration: none; 
+    color: inherit; 
+}

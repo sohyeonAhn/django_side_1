@@ -11,53 +11,106 @@
 <body>
     <div class="calendar">
         <h2>Calendar</h2>
-        <h3 id="currentYear"></h3>
+        <h3 id="currentYear">{{ calendar_weeks|get_date }}</h3>
         <h3 id="currentMonth"></h3>
-        <button id="goToday" style="margin-left: 15px;">Today</button>
+        <a id="goToday" href="{% url 'pybo:main' %}" style="margin-left: 15px;">Today</a>
 
-        <button id="nextBtn" style="float: right; margin-right: 20%;">다음 달</button>
-        <button id="prevBtn" style="float: right; margin-right: 10px;">이전 달</button>
+        <a id="nextBtn" style="float: right; margin-right: 20%;" data-page="{{ calendar_weeks|get_date_str }}" href="javascript:void(0)"> 
+            다음 달</a>
+        <a id="prevBtn" style="float: right; margin-right: 10px;" data-page="{{ calendar_weeks|get_date_str }}" href="javascript:void(0)"> 
+            이전 달</a>
         <table>
             <thead>
                 <tr>
-                    <th>Sun</th>
+                    <th class="sun">Sun</th>
                     <th>Mon</th>
                     <th>Tue</th>
                     <th>Wed</th>
                     <th>Thu</th>
                     <th>Fri</th>
-                    <th>Sat</th>
+                    <th class="sat">Sat</th>
                 </tr>
             </thead>
             <tbody>
+                {% for week in calendar_weeks %}
+                <tr>
+                  {% for day in week %}
+                    <td>
+                      <span class="write"><a href="{% url 'pybo:diary_create' %}">+</a></span>
+                      
+                      {% if day.is_current_month%}
+                        {% if day.dayOfWeek == 0%}
+                        <span class="sun">{{ day.date.day }}</span>
+                        {% elif day.dayOfWeek == 6%}
+                        <span class="sat">{{ day.date.day }}</span>
+                        {% else %}
+                        <span>{{ day.date.day }}</span>
+                        {% endif %}
+                      {% else %}
+                        {% if day.dayOfWeek == 0%}
+                        <span class="sun difmonth">{{ day.date.day }}</span>
+                        {% elif day.dayOfWeek == 6%}
+                        <span class="sat difmonth">{{ day.date.day }}</span>
+                        {% else %}
+                        <span class="difmonth">{{ day.date.day }}</span>
+                        {% endif %}
+                      {% endif %}
 
+                      <div class="daily">
+                        {% for key in daily_write%}
+                            {% if day.date.day == key|diary_day %}
+                                {% with date=day.date|date:'Y-m-d' %}
+                                  <span><a href="{% url 'pybo:diary_detail' date %}">{{daily_write|diary_title:key}}</a></span>
+                                {%endwith%}
+                            {% endif %}
+                        {% endfor %}
+                      </div>
+                    </td>
+                  {% endfor %}
+                </tr>
+              {% endfor %}
             </tbody>
         </table>
     </div>
+
+    <form id="searchForm" method="get" action="{% url 'pybo:main' %}">
+        <input type="hidden" id="years" name="years" value="{{ years }}">
+        <input type="hidden" id="month" name="month" value="{{ month }}">
+    </form>
     {% endblock %}
     {% block script %}
 
-    <script src="{% static 'diarymain.js' %}"></script>
+
     <script type='text/javascript'>
-    
 
-    var data = {{daily_write|safe}};
-    var data2 = {{row_data|safe}};
-
-    function updateCalendar() {
-        const diaryDivs = document.querySelectorAll('.daily');
-      
-        diaryDivs.forEach((daily) => {
-          const number = daily.classList[1] + daily.classList[2] + daily.classList[3];
-          if (number in data2) {
-            daily.innerHTML += "<a href=''>" + data2[number].title + "<a>";
-          } else {
-            // 일정이 없는 경우에 추가할 위치
-          }
+    const nextBtn = document.getElementById("nextBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    nextBtn.addEventListener('click', function() {
+            year = this.dataset.page.slice(0, 4);
+            month = this.dataset.page.slice(4);
+            if(month < 12){
+                month++;
+            }else{
+                year++;
+                month = 1
+            }
+            document.getElementById('years').value = year
+            document.getElementById('month').value = month
+            document.getElementById('searchForm').submit();
         });
-      }
-
-    window.addEventListener('load', updateCalendar);
+    prevBtn.addEventListener('click', function() {
+            year = this.dataset.page.slice(0, 4);
+            month = this.dataset.page.slice(4);
+            if(month > 1){
+                month--;
+            }else{
+                year--;
+                month = 12
+            }
+            document.getElementById('years').value = year
+            document.getElementById('month').value = month
+            document.getElementById('searchForm').submit();
+        });
 
     </script>
 
